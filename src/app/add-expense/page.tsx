@@ -174,6 +174,9 @@ const AddExpense: React.FC = () => {
                         borderRadius: '4px',
                       },
                     },
+                    '& .MuiAutocomplete-input:hover': {
+                      backgroundColor: 'transparent', // Set hover color to none
+                    },
                   }}
                   renderInput={(params) => (
                     <TextField
