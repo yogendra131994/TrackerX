@@ -10,9 +10,12 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import React, { ChangeEvent, SyntheticEvent, useState } from 'react';
+import { RotatingLines } from 'react-loader-spinner';
 import expenseCategories from '../assets/data/expenseOptions';
 import subCategoryOptions from '../assets/data/expenseSubCategoryOptions';
 import paymentModes from '../assets/data/paymentModes';
+import callApi from '../services/apiCall';
+import { create_transaction } from '../services/apiEndpoints';
 
 const AddExpense: React.FC = () => {
   const [currentForm, setCurrentForm] = useState<'expense' | 'income'>(
@@ -27,6 +30,7 @@ const AddExpense: React.FC = () => {
   const [selectedPaymentMode, setSelectedPaymentMode] = useState<string>('');
   const [amount, setAmount] = useState<string>('');
   const [date, setDate] = useState<Date | null>(null);
+  const [showLoader, setShowLoader] = useState<boolean>(false);
 
   function handleAutocompleteChange(
     event: SyntheticEvent<Element, Event>,
@@ -52,14 +56,26 @@ const AddExpense: React.FC = () => {
       console.log('Please fill in all required fields.');
       return;
     }
+    setShowLoader(true);
     const formData = {
+      user_id: '864cbb22-3b39-40d0-a734-75558512ec2a',
       description: description,
       category: category,
-      selectedSubcategory: selectedSubcategory,
-      selectedPaymentMode: selectedPaymentMode,
+      subcategory: selectedSubcategory,
+      mode: selectedPaymentMode,
       amount: amount,
-      date: date,
+      timestamp: date ?? new Date().getDate(),
     };
+
+    callApi('POST', create_transaction, formData)
+      .then((response) => {
+        console.log(response);
+        setShowLoader(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setShowLoader(false);
+      });
 
     console.log(formData);
   }
@@ -70,16 +86,16 @@ const AddExpense: React.FC = () => {
       !!category &&
       !!selectedSubcategory &&
       !!selectedPaymentMode &&
-      !!amount &&
-      !!date
+      !!amount
     );
   }
+  console.log('reloaded');
 
   return (
-    <div className="flex flex-col justify-center h-screen px-[1rem] py-[2rem] lg:px-[15rem] md:px-[10rem]">
+    <div className="flex flex-col justify-center h-screen px-[1rem] py-[1rem] lg:px-[20rem] md:px-[10rem]">
       <div className="flex w-full">
         <div
-          className={`text-xxxl text-center w-1/2 py-2 rounded-tl-md cursor-pointer  ${currentForm === 'expense' ? 'bg-blue text-white' : 'text-blue'}`}
+          className={`text-center w-1/2 py-2 rounded-tl-md cursor-pointer  ${currentForm === 'expense' ? 'bg-blue text-white text-xl' : 'text-blue text-lg'}`}
           onClick={() => {
             setCurrentForm('expense');
           }}
@@ -87,7 +103,7 @@ const AddExpense: React.FC = () => {
           Expense
         </div>
         <div
-          className={`text-xxxl text-center w-1/2 py-2 rounded-tr-md cursor-pointer ${currentForm === 'income' ? 'bg-blue text-white' : 'text-blue'}`}
+          className={`text-center w-1/2 py-2 rounded-tr-md cursor-pointer ${currentForm === 'income' ? 'bg-blue text-white text-xl' : 'text-blue text-lg'}`}
           onClick={() => {
             setCurrentForm('income');
           }}
@@ -152,6 +168,7 @@ const AddExpense: React.FC = () => {
                   id="combo-box-demo"
                   options={expenseCategories}
                   fullWidth
+                  size="small"
                   onChange={handleAutocompleteChange}
                   sx={{
                     '.MuiInput-underline:after': {
@@ -238,7 +255,9 @@ const AddExpense: React.FC = () => {
               </div>
             </div>
             <div className="flex flex-col gap-2">
-              <div className="text-lg font-medium text-mediumgray">Amount</div>
+              <div className="text-lg font-medium text-mediumgray">
+                Amount<span className="text-blue"> *</span>
+              </div>
               <div className="flex items-center gap-4">
                 <div className="text-[2rem] text-mediumgray">₹</div>
                 <div className="flex flex-col w-full">
@@ -295,8 +314,10 @@ const AddExpense: React.FC = () => {
                     onChange={(date: Date | null) => {
                       setDate(date);
                     }}
+                    slotProps={{ textField: { size: 'small' } }}
                     sx={{
                       width: '100%',
+
                       '.MuiInputLabel-root': {
                         fontSize: 16,
                         color: '#66757f',
@@ -320,10 +341,25 @@ const AddExpense: React.FC = () => {
                 variant="contained"
                 disableElevation
                 size="large"
+                fullWidth
                 style={{ backgroundColor: '#55acee', textTransform: 'none' }}
                 onClick={handleSubmitClick}
               >
-                Add expense
+                {showLoader ? (
+                  <RotatingLines
+                    height="40"
+                    strokeColor="white"
+                    width="40"
+                    color="white"
+                    strokeWidth="2"
+                    animationDuration="0.75"
+                    ariaLabel="rotating-lines-loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                  />
+                ) : (
+                  <>Add expense</>
+                )}
               </Button>
             </div>
           </div>
