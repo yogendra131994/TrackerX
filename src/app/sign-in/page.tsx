@@ -30,10 +30,10 @@ export default function SignIn() {
       {/* right column */}
       <div className="flex col-span-1 h-full w-full items-center justify-center px-8 py-8 ">
         <div className="">
-          <div className="font-bold text-xxxl text-black text-left mb-1">
+          <div className="font-bold text-24 text-black text-left mb-1">
             Track, Submit, and Visualize Your Expenses
           </div>
-          <div className="text-md mb-6 text-darkgray">
+          <div className="text-14 mb-6 text-darkgray">
             Welcome back! Please sign in to your account.
           </div>
           <div className="mb-4">
@@ -98,11 +98,11 @@ export default function SignIn() {
                   '&  .MuiSvgIcon-root': { fontSize: 20 },
                 }}
               />
-              <div className="text-blue_1 font-medium text-sm text-blue">
+              <div className="text-blue_1 font-medium text-12 text-blue">
                 Remember me
               </div>
             </div>
-            <div className="flex text-blue font-medium text-sm items-center">
+            <div className="flex text-blue font-medium text-12 items-center">
               Forgot Password?
             </div>
           </div>

@@ -92,10 +92,10 @@ const AddExpense: React.FC = () => {
   console.log('reloaded');
 
   return (
-    <div className="flex flex-col justify-center h-screen px-[1rem] py-[1rem] lg:px-[20rem] md:px-[10rem]">
+    <div className="flex flex-col h-full px-[1rem] py-[1rem] md:px-[10rem] lg:px-[15rem] ">
       <div className="flex w-full">
         <div
-          className={`text-center w-1/2 py-2 rounded-tl-md cursor-pointer  ${currentForm === 'expense' ? 'bg-blue text-white text-xl' : 'text-blue text-lg'}`}
+          className={`text-center w-1/2 py-2 rounded-tl-md cursor-pointer  ${currentForm === 'expense' ? 'bg-blue text-white text-18' : 'text-blue text-16'}`}
           onClick={() => {
             setCurrentForm('expense');
           }}
@@ -103,7 +103,7 @@ const AddExpense: React.FC = () => {
           Expense
         </div>
         <div
-          className={`text-center w-1/2 py-2 rounded-tr-md cursor-pointer ${currentForm === 'income' ? 'bg-blue text-white text-xl' : 'text-blue text-lg'}`}
+          className={`text-center w-1/2 py-2 rounded-tr-md cursor-pointer ${currentForm === 'income' ? 'bg-blue text-white text-18' : 'text-blue text-16'}`}
           onClick={() => {
             setCurrentForm('income');
           }}
@@ -113,12 +113,12 @@ const AddExpense: React.FC = () => {
       </div>
 
       <div
-        className={`flex-1 h-full w-full border rounded-b-md p-4 lg:px-8 overflow-auto ${currentForm === 'income' ? 'rounded-l-md' : 'rounded-r-md'} border-blue overflow-auto`}
+        className={` w-full border rounded-b-md p-4 lg:px-8 overflow-auto ${currentForm === 'income' ? 'rounded-l-md' : 'rounded-r-md'} border-blue overflow-auto`}
       >
         {currentForm === 'expense' && (
           <div className="flex flex-col gap-8 overflow-auto">
             <div className="flex flex-col gap-2">
-              <div className="text-lg font-medium text-mediumgray">
+              <div className="text-16 font-medium text-mediumgray">
                 Description
               </div>
               <TextField
@@ -161,7 +161,7 @@ const AddExpense: React.FC = () => {
             </div>
             <div className="flex flex-col gap-4">
               <div className="flex flex-col gap-2">
-                <div className="text-lg font-medium text-mediumgray">
+                <div className="text-16 font-medium text-mediumgray">
                   Category<span className="text-blue"> *</span>
                 </div>
                 <Autocomplete
@@ -211,7 +211,7 @@ const AddExpense: React.FC = () => {
               </div>
               {subCategoryArray.length !== 0 && (
                 <div className="flex flex-col gap-2">
-                  <div className="text-lg font-medium text-mediumgray">
+                  <div className="text-16 font-medium text-mediumgray">
                     Subcategory<span className="text-blue"> *</span>
                   </div>
                   <div className="flex flex-wrap gap-4">
@@ -234,7 +234,7 @@ const AddExpense: React.FC = () => {
               )}
             </div>
             <div className="flex flex-col gap-2">
-              <div className="text-lg font-medium text-mediumgray">
+              <div className="text-16 font-medium text-mediumgray">
                 Mode of payment<span className="text-blue"> *</span>
               </div>
               <div className="flex flex-wrap gap-4 ">
@@ -255,7 +255,7 @@ const AddExpense: React.FC = () => {
               </div>
             </div>
             <div className="flex flex-col gap-2">
-              <div className="text-lg font-medium text-mediumgray">
+              <div className="text-16 font-medium text-mediumgray">
                 Amount<span className="text-blue"> *</span>
               </div>
               <div className="flex items-center gap-4">
@@ -307,7 +307,7 @@ const AddExpense: React.FC = () => {
             </div>
 
             <div className="flex flex-col gap-2">
-              <div className="text-lg font-medium text-mediumgray">Date</div>
+              <div className="text-16 font-medium text-mediumgray">Date</div>
               <div>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
@@ -347,15 +347,11 @@ const AddExpense: React.FC = () => {
               >
                 {showLoader ? (
                   <RotatingLines
-                    height="40"
-                    strokeColor="white"
-                    width="40"
-                    color="white"
-                    strokeWidth="2"
-                    animationDuration="0.75"
-                    ariaLabel="rotating-lines-loading"
-                    wrapperStyle={{}}
-                    wrapperClass=""
+                    strokeColor={'white'}
+                    width={'40'}
+                    strokeWidth={'2'}
+                    animationDuration={'0.75'}
+                    ariaLabel={'rotating-lines-loading'}
                   />
                 ) : (
                   <>Add expense</>

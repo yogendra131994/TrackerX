@@ -19,12 +19,17 @@ const config: Config = {
       // ...
     },
     fontSize: {
-      sm: '12px', // Ideal measure: ~60 characters per line
-      md: '14px', // Ideal measure: ~51 characters per line
-      lg: '16px', // Ideal measure: ~45 characters per line
-      xl: '18px', // Ideal measure: ~40 characters per line
-      xxl: '20px', // Ideal measure: ~36 characters per line
-      xxxl: '24px', // Ideal measure: ~30 characters per line
+      '12': '12px',
+      '14': '14px',
+      '16': '16px',
+      '18': '18px',
+      '20': '20px',
+      '22': '22px',
+      '24': '24px',
+      '28': '28px',
+      '32': '32px',
+      '36': '36px',
+      '40': '40px',
     },
   },
   plugins: [],
