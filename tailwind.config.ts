@@ -16,9 +16,12 @@ const config: Config = {
       lightgray: '#ccd6dd',
       verylightgray: '#e1e8ed',
       white: '#fff',
+      red: '#e75757',
+      green: '#79ea86',
       // ...
     },
     fontSize: {
+      '10': '10px',
       '12': '12px',
       '14': '14px',
       '16': '16px',

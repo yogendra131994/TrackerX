@@ -95,7 +95,7 @@ const AddExpense: React.FC = () => {
     <div className="flex flex-col h-full px-[1rem] py-[1rem] md:px-[10rem] lg:px-[15rem] ">
       <div className="flex w-full">
         <div
-          className={`text-center w-1/2 py-2 rounded-tl-md cursor-pointer  ${currentForm === 'expense' ? 'bg-blue text-white text-18' : 'text-blue text-16'}`}
+          className={`text-center w-1/2 py-2 rounded-tl-md cursor-pointer text-14  ${currentForm === 'expense' ? 'bg-blue text-white' : 'text-blue'}`}
           onClick={() => {
             setCurrentForm('expense');
           }}
@@ -103,7 +103,7 @@ const AddExpense: React.FC = () => {
           Expense
         </div>
         <div
-          className={`text-center w-1/2 py-2 rounded-tr-md cursor-pointer ${currentForm === 'income' ? 'bg-blue text-white text-18' : 'text-blue text-16'}`}
+          className={`text-center w-1/2 py-2 rounded-tr-md cursor-pointer  text-14 ${currentForm === 'income' ? 'bg-blue text-white' : 'text-blue'}`}
           onClick={() => {
             setCurrentForm('income');
           }}
@@ -116,9 +116,9 @@ const AddExpense: React.FC = () => {
         className={` w-full border rounded-b-md p-4 lg:px-8 overflow-auto ${currentForm === 'income' ? 'rounded-l-md' : 'rounded-r-md'} border-blue overflow-auto`}
       >
         {currentForm === 'expense' && (
-          <div className="flex flex-col gap-8 overflow-auto">
+          <div className="flex flex-col gap-6 overflow-auto">
             <div className="flex flex-col gap-2">
-              <div className="text-16 font-medium text-mediumgray">
+              <div className="text-14 font-medium text-mediumgray">
                 Description
               </div>
               <TextField
@@ -143,14 +143,14 @@ const AddExpense: React.FC = () => {
                   '.MuiFilledInput-input': {
                     background: 'white',
                     borderRadius: '4px',
-                    fontSize: 16,
+                    fontSize: 12,
                   },
 
                   '&:focus-within': {
                     '.MuiFilledInput-input': {
                       background: 'white',
                       borderRadius: '4px',
-                      fontSize: 16,
+                      fontSize: 12,
                     },
                     border: '1px solid #55acee',
                   },
@@ -161,7 +161,7 @@ const AddExpense: React.FC = () => {
             </div>
             <div className="flex flex-col gap-4">
               <div className="flex flex-col gap-2">
-                <div className="text-16 font-medium text-mediumgray">
+                <div className="text-14 font-medium text-mediumgray">
                   Category<span className="text-blue"> *</span>
                 </div>
                 <Autocomplete
@@ -179,7 +179,7 @@ const AddExpense: React.FC = () => {
                       background: 'white',
                       borderColor: '#ccd6dd',
                       borderWidth: 1,
-                      fontSize: 16,
+                      fontSize: 12,
                       borderRadius: '4px',
                     },
                     '&:focus-within': {
@@ -187,7 +187,7 @@ const AddExpense: React.FC = () => {
                         background: 'white',
                         borderColor: '#55acee',
                         borderWidth: 1,
-                        fontSize: 16,
+                        fontSize: 12,
                         borderRadius: '4px',
                       },
                     },
@@ -211,7 +211,7 @@ const AddExpense: React.FC = () => {
               </div>
               {subCategoryArray.length !== 0 && (
                 <div className="flex flex-col gap-2">
-                  <div className="text-16 font-medium text-mediumgray">
+                  <div className="text-14 font-medium text-mediumgray">
                     Subcategory<span className="text-blue"> *</span>
                   </div>
                   <div className="flex flex-wrap gap-4">
@@ -234,7 +234,7 @@ const AddExpense: React.FC = () => {
               )}
             </div>
             <div className="flex flex-col gap-2">
-              <div className="text-16 font-medium text-mediumgray">
+              <div className="text-14 font-medium text-mediumgray">
                 Mode of payment<span className="text-blue"> *</span>
               </div>
               <div className="flex flex-wrap gap-4 ">
@@ -242,7 +242,7 @@ const AddExpense: React.FC = () => {
                   return (
                     <div
                       key={index}
-                      className={`flex shrink-0 border rounded-md px-2 py-1 cursor-pointer text-[14px] ${selectedPaymentMode !== value ? ' border-blue   text-blue' : 'bg-blue text-white'}`}
+                      className={`flex shrink-0 border rounded-md px-2 py-1 cursor-pointer text-[12px] ${selectedPaymentMode !== value ? ' border-blue   text-blue' : 'bg-blue text-white'}`}
                       onClick={() => {
                         setSelectedPaymentMode(value);
                         console.log(selectedPaymentMode);
@@ -255,11 +255,11 @@ const AddExpense: React.FC = () => {
               </div>
             </div>
             <div className="flex flex-col gap-2">
-              <div className="text-16 font-medium text-mediumgray">
+              <div className="text-14 font-medium text-mediumgray">
                 Amount<span className="text-blue"> *</span>
               </div>
               <div className="flex items-center gap-4">
-                <div className="text-[2rem] text-mediumgray">₹</div>
+                <div className="text-40 text-mediumgray">₹</div>
                 <div className="flex flex-col w-full">
                   <TextField
                     id="filled-number"
@@ -282,11 +282,11 @@ const AddExpense: React.FC = () => {
                       '.MuiFilledInput-input': {
                         background: 'white',
                         borderRadius: '4px',
-                        fontSize: 20,
+                        fontSize: 12,
                         fontWeight: 500,
                       },
                       '&::placeholder': {
-                        fontSize: 16,
+                        fontSize: 12,
                       },
 
                       '&:focus-within': {
@@ -294,7 +294,7 @@ const AddExpense: React.FC = () => {
                         '.MuiFilledInput-input': {
                           background: 'white',
                           borderRadius: '4px',
-                          fontSize: 20,
+                          fontSize: 12,
                           fontWeight: 500,
                         },
                       },
@@ -307,7 +307,7 @@ const AddExpense: React.FC = () => {
             </div>
 
             <div className="flex flex-col gap-2">
-              <div className="text-16 font-medium text-mediumgray">Date</div>
+              <div className="text-14 font-medium text-mediumgray">Date</div>
               <div>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
@@ -319,7 +319,7 @@ const AddExpense: React.FC = () => {
                       width: '100%',
 
                       '.MuiInputLabel-root': {
-                        fontSize: 16,
+                        fontSize: 12,
                         color: '#66757f',
                       },
                       '.MuiOutlinedInput-root': {
@@ -329,7 +329,10 @@ const AddExpense: React.FC = () => {
                         },
                       },
                       '.MuiInputBase-input': {
-                        fontSize: 16,
+                        fontSize: 12,
+                      },
+                      '.MuiSvgIcon-root': {
+                        fontSize: '16px', // Adjust the size as needed
                       },
                     }}
                   />

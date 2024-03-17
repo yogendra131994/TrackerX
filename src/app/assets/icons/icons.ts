@@ -12,6 +12,10 @@ import vectorIllustration from './signInIcons/vector_illustration.svg';
 //add-expense icons import
 import date from './addExpense/date.svg';
 
+//home icons
+import downArrow from './homeIcons/down_arrow.svg';
+import upArrow from './homeIcons/up_arrow.svg';
+
 const icons = {
   logo_black,
   logo_white,
@@ -28,6 +32,10 @@ const icons = {
 
   addExpenseIcons: {
     date,
+  },
+  homeIcons: {
+    upArrow,
+    downArrow,
   },
 };
 export default icons;
