@@ -1,0 +1,16 @@
+{
+  "id": "mig_co0ko9987kp9qchlpj30",
+  "parentID": "mig_co0ko0187kp9qchlpj20",
+  "checksum": "1:233604296d508811bc13455694634e7a7f6d492f8c7682c736a93b6df3aec993",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "modeofpayment",
+          "type": "string"
+        },
+        "table": "transactions"
+      }
+    }
+  ]
+}

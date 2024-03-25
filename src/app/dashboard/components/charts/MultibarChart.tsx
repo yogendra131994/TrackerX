@@ -102,11 +102,15 @@ const MultiBarChart = () => {
         label: 'Income',
         data: [65, 59, 80, 81, 56, 55, 40],
         backgroundColor: '#79ea86', // Change bar color if needed
+        borderRadius: 4,
+        barThickness: 12,
       },
       {
         label: 'Expense',
         data: [42, 68, 15, 72, 38, 84, 50],
         backgroundColor: '#e75757',
+        borderRadius: 4,
+        barThickness: 12,
       },
     ],
   };

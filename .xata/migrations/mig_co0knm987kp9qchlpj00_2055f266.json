@@ -1,0 +1,17 @@
+{
+  "id": "mig_co0knm987kp9qchlpj00",
+  "parentID": "mig_co0kng987kp9qchlpis0",
+  "checksum": "1:2055f266b4cc6830c476fa8ca1f3daf8038395da605b3447bb2cab0f67183576",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "description",
+          "type": "text",
+          "defaultValue": "NA"
+        },
+        "table": "transactions"
+      }
+    }
+  ]
+}

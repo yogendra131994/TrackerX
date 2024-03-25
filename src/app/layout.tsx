@@ -1,9 +1,5 @@
 'use client';
 import type { Metadata } from 'next';
-import { RecoilRoot } from 'recoil';
-import BottomNav from './components/BottomNav';
-import NavBar from './components/NavBar';
-import TopNav from './components/TopNav';
 import './globals.css';
 
 const metadata: Metadata = {
@@ -17,48 +13,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <RecoilRoot>
-      <html lang="en">
-        <head>
-          <link
-            rel="icon"
-            href="../"
-            type="image/<generated>"
-            sizes="<generated>"
-          />
-        </head>
-        <body className="overflow-auto">
-          {' '}
-          {/* Add overflow-hidden to prevent body scrolling */}
-          {/* <div className="flex flex-col h-screen"> */}
-          <div className="h-screen flex flex-col md:flex md:flex-row-reverse">
-            {/* Header */}
-
-            <header>
-              {' '}
-              {/* Add fixed header styling */}
-              <div className="hidden md:block">
-                <NavBar />
-              </div>
-              <div className="block md:hidden">
-                <TopNav />
-              </div>
-            </header>
-
-            {/* Main Content */}
-            <div className="flex-1 overflow-auto">
-              <main className="h-full w-full overflow-auto">{children}</main>
-            </div>
-
-            {/* Footer */}
-            <footer className="md:hidden">
-              {' '}
-              {/* Add fixed footer styling */}
-              <BottomNav />
-            </footer>
-          </div>
-        </body>
-      </html>
-    </RecoilRoot>
+    <html lang="en">
+      <head>
+        <link
+          rel="icon"
+          href="../"
+          type="image/<generated>"
+          sizes="<generated>"
+        />
+      </head>
+      <body className="overflow-auto">{children}</body>
+    </html>
   );
 }

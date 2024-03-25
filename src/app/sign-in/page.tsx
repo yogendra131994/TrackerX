@@ -1,13 +1,14 @@
-import { Button, Checkbox, FormControlLabel, TextField } from '@mui/material';
+import { Button } from '@mui/material';
 import Image from 'next/image';
 import icons from '../assets/icons/icons';
 const signInIcons = icons.signInIcons;
 
 export default function SignIn() {
-  const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
-
+  const handleSignup = async (data: FormData) => {
+    'use server';
+  };
   return (
-    <div className="grid grid-cols-2 h-screen w-screen">
+    <div className="grid grid-cols-2 h-screen w -screen">
       {/* left column */}
       <div className="col-span-1 h-full w-full px-8 py-8 bg-blue">
         <div className="flex h-full w-full justify-center items-center select-none">
@@ -37,7 +38,7 @@ export default function SignIn() {
             Welcome back! Please sign in to your account.
           </div>
           <div className="mb-4">
-            <TextField
+            {/* <TextField
               id="filled-number"
               label="Email Address"
               type="text"
@@ -60,10 +61,10 @@ export default function SignIn() {
                   },
                 },
               }}
-            />
+            /> */}
           </div>
           <div className="mb-4">
-            <TextField
+            {/* <TextField
               id="filled-number"
               label="Password"
               type="password"
@@ -86,18 +87,18 @@ export default function SignIn() {
                   },
                 },
               }}
-            />
+            /> */}
           </div>
           <div className="flex justify-between mb-4">
             <div className="flex items-center gap-0">
-              <FormControlLabel
+              {/* <FormControlLabel
                 control={<Checkbox defaultChecked />}
                 label=""
                 sx={{
                   color: '#5C677D',
                   '&  .MuiSvgIcon-root': { fontSize: 20 },
                 }}
-              />
+              /> */}
               <div className="text-blue_1 font-medium text-12 text-blue">
                 Remember me
               </div>
@@ -114,13 +115,17 @@ export default function SignIn() {
             >
               Sign in
             </Button>
-            <Button
-              size="medium"
-              variant="outlined"
-              style={{ textTransform: 'none', color: '#55acee' }}
-            >
-              Sign up
-            </Button>
+            <form action={handleSignup}>
+              <Button
+                size="medium"
+                variant="outlined"
+                style={{ textTransform: 'none', color: '#55acee' }}
+                type="submit"
+              >
+                Sign up
+              </Button>
+            </form>
+            {/* <SignupButton /> */}
           </div>
         </div>
       </div>

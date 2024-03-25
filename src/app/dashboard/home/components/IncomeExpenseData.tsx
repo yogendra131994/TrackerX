@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import icons from '../../assets/icons/icons';
+import icons from '../../../assets/icons/icons';
 export default function IncomeExpenseData() {
   return (
     <div className="flex w-full justify-between gap-4 md:justify-start md:w-auto md:gap-8">

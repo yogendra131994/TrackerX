@@ -1,0 +1,6 @@
+{
+  "databaseURL": "https://TrackerX-i8lbph.ap-southeast-2.xata.sh/db/trackerx",
+  "codegen": {
+    "output": "src/xata.ts"
+  }
+}

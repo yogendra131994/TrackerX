@@ -4,8 +4,7 @@ const paymentModes: Array<string> = [
   'Credit/Debit Card',
   'Wallet',
   'Bank Transfer',
-  'Cheque',
-  'DD',
+  'Cheque/DD',
 ];
 
 export default paymentModes;

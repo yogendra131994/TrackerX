@@ -1,0 +1,16 @@
+{
+  "id": "mig_co0kns187kp9qchlpj10",
+  "parentID": "mig_co0knm987kp9qchlpj00",
+  "checksum": "1:7e875d6b80cc9ccd77f7478a043a59d973632083fd3f749c859eeb2f9749882c",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "category",
+          "type": "string"
+        },
+        "table": "transactions"
+      }
+    }
+  ]
+}
