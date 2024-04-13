@@ -55,3 +55,8 @@ html {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+.rotate_bar {
+  display: inline-block; /* Ensures the container doesn't stretch */
+  transform: rotate(-90deg); /* Rotates the container and its contents */
+}

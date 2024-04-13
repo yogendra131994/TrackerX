@@ -1,0 +1,16 @@
+{
+  "id": "mig_co0pnrdr269g583o3oc0",
+  "parentID": "mig_co0p7k247hd2n5gsp2k0",
+  "checksum": "1:6b57b9bdf6d328441dddc30c2912ba0db2b93c6da8e63a535fc95e47ea41dcc5",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "token",
+          "type": "string"
+        },
+        "table": "users"
+      }
+    }
+  ]
+}

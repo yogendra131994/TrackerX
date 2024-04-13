@@ -10,12 +10,13 @@ const tables = [
   {
     name: "transactions",
     columns: [
-      { name: "date", type: "datetime" },
       { name: "description", type: "text", defaultValue: "NA" },
       { name: "category", type: "string" },
       { name: "subcategory", type: "string" },
       { name: "modeofpayment", type: "string" },
       { name: "amount", type: "float" },
+      { name: "email", type: "string" },
+      { name: "date", type: "datetime" },
     ],
   },
   {
@@ -23,6 +24,8 @@ const tables = [
     columns: [
       { name: "email", type: "string" },
       { name: "name", type: "string" },
+      { name: "image", type: "string" },
+      { name: "token", type: "string" },
     ],
   },
 ] as const;

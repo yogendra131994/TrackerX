@@ -2,7 +2,7 @@ import Image from 'next/image';
 import icons from '../../../assets/icons/icons';
 export default function IncomeExpenseData() {
   return (
-    <div className="flex w-full justify-between gap-4 md:justify-start md:w-auto md:gap-8">
+    <div className="flex w-full justify-between gap-4  md:justify-start md:w-auto md:gap-8">
       {/* income card */}
       <div className="flex flex-col px-4 py-4 rounded-md shadow-md w-full md:w-fit md:gap-3 bg-white">
         <div className="flex w-full items-center gap-8">

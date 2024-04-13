@@ -1,25 +1,27 @@
+import { Suspense } from 'react';
 import { DonutChart } from '../components/charts/DonutChart';
 import MultiBarChart from '../components/charts/MultibarChart';
-import IncomeExpenseData from './components/IncomeExpenseData';
-import RangeSelector from './components/RangeSelector';
+import IncomeExpenseData from './components/incomeexpensedata';
+import RangeSelector from './components/rangeselector';
 
 export default function page() {
   return (
     <div className="flex flex-col px-4 h-full gap-4">
       <IncomeExpenseData />
       {/* charts */}
-      <div className="flex flex-col md:flex-row gap-4">
-        <div className="flex flex-col gap-4 w-full md:w-[50%] md:h-[300px] px-6 py-4 rounded-md shadow-md bg-white">
+      <div className="flex flex-col lg:flex-row gap-4">
+        <div className="flex flex-col gap-4 w-full lg:w-[50%] lg:h-[300px] px-6 py-4 rounded-md shadow-md bg-white">
           <div className="flex justify-between items-center">
             <div className="font-medium text-16 text-mediumgray">
               Income and Expense
             </div>
             <RangeSelector atom="MultibarChart" />
           </div>
-
-          <MultiBarChart />
+          <Suspense fallback={<p>Loading</p>}>
+            <MultiBarChart />
+          </Suspense>
         </div>
-        <div className="flex flex-col gap-4 w-full md:w-[50%] md:h-[300px] px-6 py-4 rounded-md shadow-md bg-white">
+        <div className="flex flex-col gap-4 w-full lg:w-[50%] lg:h-[300px] px-6 py-4 rounded-md shadow-md bg-white">
           <div className="flex justify-between items-center">
             <div className="font-medium text-16 text-mediumgray">
               Expense Breakdown

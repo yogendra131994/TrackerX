@@ -1,0 +1,19 @@
+{
+  "id": "mig_co0p6jq47hd2n5gsp2i0",
+  "parentID": "mig_co0otu9fqr3fuv32vkcg",
+  "checksum": "1:8aea685c594b7062c4e7229f47f717d959d6d489287c98f739b295a3b35ecc2e",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "userid",
+          "type": "link",
+          "link": {
+            "table": "transactions"
+          }
+        },
+        "table": "transactions"
+      }
+    }
+  ]
+}

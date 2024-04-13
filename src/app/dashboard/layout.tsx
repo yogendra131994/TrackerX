@@ -1,9 +1,9 @@
 'use client';
 import type { Metadata } from 'next';
 import { RecoilRoot } from 'recoil';
-import BottomNav from './components/BottomNav';
-import NavBar from './components/SideNavBar';
-import TopNav from './components/TopNav';
+import BottomNav from './components/bottomnav';
+import NavBar from './components/sidebarnav';
+import TopNav from './components/topnav';
 
 const metadata: Metadata = {
   title: 'TrackerX',
@@ -30,16 +30,16 @@ export default function DashboardLayout({
           {' '}
           {/* Add overflow-hidden to prevent body scrolling */}
           {/* <div className="flex flex-col h-screen"> */}
-          <div className="h-screen flex flex-col md:flex md:flex-row-reverse">
+          <div className="h-screen flex flex-col lg:flex lg:flex-row-reverse">
             {/* Header */}
 
             <header>
               {' '}
               {/* Add fixed header styling */}
-              <div className="hidden md:block">
+              <div className="hidden md:hidden lg:block">
                 <NavBar />
               </div>
-              <div className="block md:hidden">
+              <div className="block lg:hidden w-full">
                 <TopNav />
               </div>
             </header>
@@ -50,7 +50,7 @@ export default function DashboardLayout({
             </div>
 
             {/* Footer */}
-            <footer className="md:hidden">
+            <footer className="lg:hidden">
               {' '}
               {/* Add fixed footer styling */}
               <BottomNav />

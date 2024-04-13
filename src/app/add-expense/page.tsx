@@ -14,8 +14,6 @@ import { RotatingLines } from 'react-loader-spinner';
 import expenseCategories from '../assets/data/expenseOptions';
 import subCategoryOptions from '../assets/data/expenseSubCategoryOptions';
 import paymentModes from '../assets/data/paymentModes';
-import callApi from '../services/apiCall';
-import { create_transaction } from '../services/apiEndpoints';
 
 const AddExpense: React.FC = () => {
   const [currentForm, setCurrentForm] = useState<'expense' | 'income'>(
@@ -29,7 +27,7 @@ const AddExpense: React.FC = () => {
   const [selectedSubcategory, setSelectedSubCategory] = useState<string>('');
   const [selectedPaymentMode, setSelectedPaymentMode] = useState<string>('');
   const [amount, setAmount] = useState<string>('');
-  const [date, setDate] = useState<Date | null>(null);
+  const [date, setDate] = useState<Date>(new Date());
   const [showLoader, setShowLoader] = useState<boolean>(false);
 
   function handleAutocompleteChange(
@@ -50,34 +48,45 @@ const AddExpense: React.FC = () => {
     }
   }
 
-  function handleSubmitClick(event: any): void {
+  async function handleSubmitClick(event: any) {
     if (!validateForm()) {
       // Form validation failed
       console.log('Please fill in all required fields.');
       return;
     }
     setShowLoader(true);
-    const formData = {
-      user_id: '864cbb22-3b39-40d0-a734-75558512ec2a',
-      description: description,
-      category: category,
-      subcategory: selectedSubcategory,
-      mode: selectedPaymentMode,
-      amount: amount,
-      timestamp: date ?? new Date().getDate(),
-    };
 
-    callApi('POST', create_transaction, formData)
-      .then((response) => {
-        console.log(response);
-        setShowLoader(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setShowLoader(false);
-      });
+    const formData = new FormData();
+    console.log(date);
 
-    console.log(formData);
+    formData.append('description', description);
+    formData.append('category', category);
+    formData.append('subcategory', selectedSubcategory);
+    formData.append('modeofpayment', selectedPaymentMode);
+    formData.append('email', 'yogendra.pawar@spit.ac.in');
+    formData.append('amount', amount);
+    formData.append('date', date.toISOString());
+
+    // Format the date to DateTime format (YYYY-MM-DDTHH:mm:ss)
+    const requestOptions = {
+      method: 'POST',
+      body: formData,
+    }; // Explicitly specify the type as RequestInit
+
+    try {
+      const response = await fetch(
+        'http://localhost:3000/api/addExpense',
+        requestOptions,
+      );
+      if (!response.ok) {
+        throw new Error('Failed to add expense');
+      }
+      const responseData = await response.json();
+      console.log(responseData);
+      setShowLoader(false);
+    } catch (error) {
+      console.error('Error:', error);
+    }
   }
 
   function validateForm(): boolean {
@@ -312,9 +321,10 @@ const AddExpense: React.FC = () => {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     onChange={(date: Date | null) => {
-                      setDate(date);
+                      setDate(date ?? new Date());
                     }}
                     slotProps={{ textField: { size: 'small' } }}
+                    format="DD-MM-YYYY"
                     sx={{
                       width: '100%',
 
@@ -345,6 +355,7 @@ const AddExpense: React.FC = () => {
                 disableElevation
                 size="large"
                 fullWidth
+                type="submit"
                 style={{ backgroundColor: '#55acee', textTransform: 'none' }}
                 onClick={handleSubmitClick}
               >

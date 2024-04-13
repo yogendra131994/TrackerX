@@ -10,7 +10,12 @@ export const donutChartSelectedRangeState = atom<string>({
   default: '1w', // Set the initial value to null or a default range option
 });
 
-export const windowDimensions = atom<Object>({
+export const windowDimensionsState = atom<any>({
   key: 'windowDimensions',
   default: { width: 0, height: 0 }, // Set the initial value to null or a default range option
+});
+
+export const transactionsData = atom<Array<Object>>({
+  key: 'transactionsData',
+  default: [], // Set the initial value to null or a default range option
 });

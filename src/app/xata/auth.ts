@@ -1,7 +1,7 @@
 import GoogleProvider from 'next-auth/providers/google';
 // When you ran `xata init` it created a `src/xata.ts` that exports the client
 import { XataClient } from '../../xata';
-const client = new XataClient();
+const client: XataClient = new XataClient();
 const options = {
   providers: [
     // Auth JS provides many providers, but we'll only use Google for this demo
@@ -20,9 +20,11 @@ const options = {
       const record = await client.db.users.create({
         email: user.user.email,
         name: user.user.name,
+        image: user.user.image,
+        token: user.account.id_token,
       });
       console.log(record);
-      return true; // Return true to allow sign in
+      return true;
     },
   },
 };

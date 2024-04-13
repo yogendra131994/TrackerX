@@ -1,0 +1,13 @@
+{
+  "id": "mig_co0p6oq47hd2n5gsp2j0",
+  "parentID": "mig_co0p6jq47hd2n5gsp2i0",
+  "checksum": "1:1cdb0488f0cbc8f08fa02ece5253dea3d3351beb555bf8e74cc790652f8e3135",
+  "operations": [
+    {
+      "removeColumn": {
+        "column": "userid",
+        "table": "transactions"
+      }
+    }
+  ]
+}
