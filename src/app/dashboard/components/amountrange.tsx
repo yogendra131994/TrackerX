@@ -34,7 +34,7 @@ export default function SliderComponent({
       <div className="w-full h-full flex items-center">
         <input
           type="number"
-          className={`w-[120px] h-full px-2 text-12 focus:outline-none border focus-within:border-blue rounded-r-[4px] border-lightgray ${value[0] ? 'border-[#55acee]' : 'border-[#ccd6dd]'}`}
+          className={`w-[120px] h-full px-2 text-12 focus:outline-none border focus-within:border-blue rounded-l-[4px] border-lightgray ${value[0] ? 'border-[#55acee]' : 'border-[#ccd6dd]'}`}
           placeholder="from"
           onChange={handleFromAmount}
           value={filterState.fromAmount !== null ? filterState.fromAmount : ''}

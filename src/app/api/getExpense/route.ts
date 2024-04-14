@@ -40,7 +40,7 @@ export async function GET(req: Request) {
     filter.category = category;
   }
 
-  const pagination = { size: 10 } as {
+  const pagination = { size: 20 } as {
     size: number;
     after?: any;
     before?: any;

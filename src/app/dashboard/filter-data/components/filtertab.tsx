@@ -1,5 +1,10 @@
 'use client';
-import { transactionsData as transactionsDataAtom } from '@/app/recoilState/atom';
+import {
+  hideMoreState,
+  transactionsData as transactionsDataAtom,
+  triggerNextPageState,
+} from '@/app/recoilState/atom';
+import { loadingTableData } from '@/app/recoilState/loading';
 import { Button } from '@mui/material';
 import axios from 'axios';
 import dayjs from 'dayjs';
@@ -9,24 +14,11 @@ import expeseCategories from '../../../assets/data/expenseOptions';
 import paymentModes from '../../../assets/data/paymentModes';
 import AutocompleteComponent from '../../components/AutocompleteComponent';
 import SliderComponent from '../../components/amountrange';
+import DatePicker from '../../components/inputs/datepicker';
 import SearchBar from './searchbar';
 
 export function FilterTab() {
   const [page, setPage] = useState<string | null>(null);
-
-  // interface FilterState {
-  //   category: string | null;
-  //   paymentMode: string | null;
-  //   fromAmount: number | null;
-  //   toAmount: number | null;
-  //   fromDate: Date | null;
-  //   toDate: Date | null;
-  //   reqUrl: string | null;
-  //   page: string | null;
-  //   cursor: string | null;
-  //   searchQuery: string | null;
-  // }
-
   const initialFilterState = {
     category: null,
     paymentMode: null,
@@ -41,17 +33,20 @@ export function FilterTab() {
   };
   const [filterState, setFilterState] =
     useState<FilterState>(initialFilterState);
-
+  const [triggerNextPage, setTriggerNextPage] =
+    useRecoilState<boolean>(triggerNextPageState);
   const [transactionsData, setTransactionsData] =
     useRecoilState<Array<Object>>(transactionsDataAtom);
   const [refresh, setRefresh] = useState<boolean>(false);
   const [disableNextButton, setDisableNextButton] = useState<boolean>(false);
   const [disablePreviousButton, setDisablePreviousButton] =
     useState<boolean>(true);
+  const [hideMore, setHideMore] = useRecoilState(hideMoreState);
 
   const createQueryString = (name: string, value: string) => {
     return name + '=' + value;
   };
+  const [loadingData, setLoadingStatus] = useRecoilState(loadingTableData);
 
   async function handleFilter() {
     setRefresh(!refresh);
@@ -80,47 +75,6 @@ export function FilterTab() {
 
   function buildQueryString() {
     let queryString = '';
-
-    // Construct the query string based on current state values
-    // if (category !== null) {
-    //   queryString += '&' + createQueryString('category', category);
-    // }
-
-    // if (paymentMode !== null) {
-    //   queryString += '&' + createQueryString('paymentMode', paymentMode);
-    // }
-
-    // if (amountRange !== null && amountRange.length === 2) {
-    //   queryString +=
-    //     '&' + createQueryString('fromAmount', amountRange[0].toString());
-    //   queryString +=
-    //     '&' + createQueryString('toAmount', amountRange[1].toString());
-    // }
-
-    // if (fromDate !== null) {
-    //   queryString +=
-    //     '&' + createQueryString('fromDate', dayjs(fromDate).toISOString());
-    // }
-
-    // if (toDate !== null) {
-    //   queryString +=
-    //     '&' + createQueryString('toDate', dayjs(toDate).toISOString());
-    // }
-
-    // if (searchQuery && searchQuery.length > 0) {
-    //   queryString += '&' + createQueryString('searchQuery', searchQuery);
-    // }
-    // if (page && page.length > 0) {
-    //   queryString += '&' + createQueryString('page', page);
-    // }
-    // if (cursor) {
-    //   queryString += '&' + createQueryString('cursor', cursor);
-    // }
-
-    // if (queryString.length > 0) {
-    //   queryString = '?' + queryString.substring(1);
-    // }
-
     const keys = Object.keys(filterState);
     keys.forEach((key) => {
       const value = filterState[key];
@@ -142,51 +96,59 @@ export function FilterTab() {
   }
 
   async function fetchData(queryString: string) {
-    console.log('from get expense');
     if (transactionsData != null) {
-      try {
-        const response = await axios.get(
-          'http://localhost:3000/api/getExpense' + queryString,
-        );
-        // console.log('has next', response.data.hasNext());
-
-        console.log(response);
-        setTransactionsData(response.data);
-        console.log('cursor', response.data.meta.page.cursor);
-        setFilterState((prevState: any) => ({
-          ...prevState,
-          'cursor': response.data.meta.page.cursor,
-        }));
-        if (response.data.meta.page.more) {
-          if (page === 'n') {
-            setDisableNextButton(false);
-            setDisablePreviousButton(false);
-          } else if (page === 'p') {
-            setDisablePreviousButton(false);
-            setDisableNextButton(false);
+      axios
+        .get('http://192.168.0.100:3000/api/getExpense' + queryString)
+        .then((response) => {
+          if (triggerNextPage) {
+            setTransactionsData((prevData) => [
+              ...prevData,
+              ...response.data.records,
+            ]);
           } else {
-            setDisablePreviousButton(true);
-            setDisableNextButton(false);
+            setTransactionsData(response.data.records);
           }
-        } else {
-          if (page === 'n') {
-            setDisableNextButton(true);
-          } else if (page === 'p') {
-            setDisablePreviousButton(true);
-            setDisableNextButton(false);
-          } else {
-            setDisablePreviousButton(true);
-            setDisableNextButton(true);
-          }
-          setPage(null);
           setFilterState((prevState: any) => ({
             ...prevState,
-            page: null,
+            cursor: response.data.meta.page.cursor,
           }));
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
+          if (response.data.meta.page.more) {
+            if (page === 'n') {
+              setDisableNextButton(false);
+              setDisablePreviousButton(false);
+            } else if (page === 'p') {
+              setDisablePreviousButton(false);
+              setDisableNextButton(false);
+            } else {
+              setDisablePreviousButton(true);
+              setDisableNextButton(false);
+            }
+            setHideMore(false);
+          } else {
+            if (page === 'n') {
+              setDisableNextButton(true);
+            } else if (page === 'p') {
+              setDisablePreviousButton(true);
+              setDisableNextButton(false);
+            } else {
+              setDisablePreviousButton(true);
+              setDisableNextButton(true);
+            }
+            setPage(null);
+            setFilterState((prevState: any) => ({
+              ...prevState,
+              page: null,
+            }));
+            setHideMore(true);
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching data:', error);
+        })
+        .finally(() => {
+          setLoadingStatus(false);
+          setTriggerNextPage(false);
+        });
     }
   }
 
@@ -201,7 +163,12 @@ export function FilterTab() {
     }
   }, []);
 
-  console.log('rerendered');
+  useEffect(() => {
+    if (triggerNextPage) {
+      handleNext();
+    }
+  }, [triggerNextPage]);
+
   return (
     <Suspense fallback={<p>Loading</p>}>
       <div className="flex flex-row justify-end gap-2 px-2 mb-2">
@@ -277,13 +244,13 @@ export function FilterTab() {
         </Button>
         <div
           onClick={disableNextButton ? () => {} : handleNext}
-          className={`text-blue text-12 ${disableNextButton ? ' text-mediumgray' : 'text-blue'}`}
+          className={`text-blue text-12 cursor-pointer ${disableNextButton ? ' text-mediumgray' : 'text-blue'}`}
         >
           Next
         </div>
         <div
           onClick={disablePreviousButton ? () => {} : handlePrevious}
-          className={`text-blue text-12 ${disablePreviousButton ? ' text-mediumgray' : 'text-blue'}`}
+          className={`text-blue text-12 cursor-pointer ${disablePreviousButton ? ' text-mediumgray' : 'text-blue'}`}
         >
           Previous
         </div>
@@ -323,23 +290,23 @@ function DateRangeComponent({
   return (
     <div className="flex h-full">
       <div className="h-full w-full flex items-center">
-        <input
+        {/* <input
           className={`w-[120px] focus-within:border-blue border bg-white rounded-l-[4px] focus:outline-none  h-full text-12 px-2 ${date1 === null ? 'text-lightgray border-lightgray' : 'text-black border-[#55acee]'}`}
           type="date"
           id="start"
           name="trip-start"
           onChange={handleFromDateChange}
           value={filterState.fromDate !== null ? filterState.fromDate : ''}
+        /> */}
+        <DatePicker
+          dateValue={filterState?.fromDate}
+          handleDateChange={handleFromDateChange}
         />
       </div>
       <div className="h-full w-full flex items-center">
-        <input
-          className={`w-[120px] focus-within:border-blue border bg-white rounded-r-[4px] focus:outline-none  h-full text-12 px-2 ${date2 === null ? 'text-lightgray border-lightgray' : 'text-black border-[#55acee]'}`}
-          type="date"
-          id="start"
-          onChange={handleToDateChange}
-          name="trip-start"
-          value={filterState.toDate !== null ? filterState.toDate : ''}
+        <DatePicker
+          dateValue={filterState?.toDate}
+          handleDateChange={handleToDateChange}
         />
       </div>
     </div>

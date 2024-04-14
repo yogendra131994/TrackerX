@@ -9,4 +9,5 @@ type FilterState = {
   page: string | null;
   cursor: string | null;
   searchQuery: string | null;
+  [key: string]: string | number | Date | null;
 };

@@ -19,3 +19,13 @@ export const transactionsData = atom<Array<Object>>({
   key: 'transactionsData',
   default: [], // Set the initial value to null or a default range option
 });
+
+export const triggerNextPageState = atom<boolean>({
+  key: 'triggerNextPageState',
+  default: false,
+});
+
+export const hideMoreState = atom<boolean>({
+  key: 'hideMoreState',
+  default: false,
+});

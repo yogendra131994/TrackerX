@@ -40,7 +40,7 @@ export default function AutocompleteComponent({
         value={value}
         id="combo-box-demo"
         options={options}
-        className=" cursor-pointer"
+        className="cursor-pointer"
         fullWidth
         size="small"
         ListboxProps={{
@@ -49,6 +49,7 @@ export default function AutocompleteComponent({
         onChange={handleAutocompleteChange}
         sx={{
           width: '100%',
+
           '.MuiInput-underline:after': {
             borderBottom: 'none', // Remove underline
           },

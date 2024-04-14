@@ -18,6 +18,7 @@
     "@mui/styled-engine-sc": "^6.0.0-alpha.17",
     "@mui/x-date-pickers": "^6.19.6",
     "@next-auth/xata-adapter": "^0.2.2",
+    "@react-spring/web": "^9.7.3",
     "@xata.io/client": "^0.29.3",
     "axios": "^1.6.7",
     "dayjs": "^1.11.10",
