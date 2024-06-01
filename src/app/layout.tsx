@@ -1,6 +1,8 @@
 'use client';
 import type { Metadata } from 'next';
+import { Provider } from 'react-redux';
 import './globals.css';
+import { store } from './redux/store';
 
 const metadata: Metadata = {
   title: 'TrackerX',
@@ -13,6 +15,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <Provider store={store}>
+
     <html lang="en">
       <head>
         <link
@@ -24,5 +28,7 @@ export default function RootLayout({
       </head>
       <body className="overflow-auto">{children}</body>
     </html>
+    </Provider>
+
   );
 }

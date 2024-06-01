@@ -1,4 +1,6 @@
 'use client';
+import { isFormValid, setAmount, setCategory, setDate, setDescription, setPaymentMode, setSubCategory } from '@/app/redux/slices/expense_form_slice';
+import { AppDispatch, RootState } from '@/app/redux/store';
 import {
   Autocomplete,
   AutocompleteChangeDetails,
@@ -9,23 +11,24 @@ import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import dayjs from 'dayjs';
 import React, { ChangeEvent, SyntheticEvent, useState } from 'react';
-import { RotatingLines } from 'react-loader-spinner';
+import { useDispatch, useSelector } from 'react-redux';
 import expenseCategories from '../../../assets/data/expenseOptions';
 import subCategoryOptions from '../../../assets/data/expenseSubCategoryOptions';
 import paymentModes from '../../../assets/data/paymentModes';
 
 const AddExpense: React.FC = () => {
+
+  const dispatch = useDispatch<AppDispatch>();
+  const { description, category, subCategory, paymentMode, amount, date } = useSelector(
+    (state: RootState) => state.expenseForm
+  );
+  const formValid = useSelector(isFormValid);
+
+
   const [subCategoryArray, setSubCategoryArray] = useState<any>([]);
 
-  //selected values
-  const [description, setDescription] = useState<string>('');
-  const [category, setCategory] = useState<string>('');
-  const [selectedSubcategory, setSelectedSubCategory] = useState<string>('');
-  const [selectedPaymentMode, setSelectedPaymentMode] = useState<string>('');
-  const [amount, setAmount] = useState<string>('');
-  const [date, setDate] = useState<Date>(new Date());
-  const [showLoader, setShowLoader] = useState<boolean>(false);
 
   function handleAutocompleteChange(
     event: SyntheticEvent<Element, Event>,
@@ -34,7 +37,8 @@ const AddExpense: React.FC = () => {
     details?: AutocompleteChangeDetails<string> | undefined,
   ): void {
     console.log('selected', value, expenseCategories.indexOf(value as string));
-    setCategory(value as string);
+    dispatch(setCategory(value as string))
+    
     if (value) {
       const selectedSubCategories = subCategoryOptions[value];
       setSubCategoryArray(selectedSubCategories);
@@ -46,55 +50,45 @@ const AddExpense: React.FC = () => {
   }
 
   async function handleSubmitClick(event: any) {
-    if (!validateForm()) {
+    if (!formValid) {
       // Form validation failed
       console.log('Please fill in all required fields.');
       return;
     }
-    setShowLoader(true);
 
     const formData = new FormData();
     console.log(date);
 
-    formData.append('description', description);
-    formData.append('category', category);
-    formData.append('subcategory', selectedSubcategory);
-    formData.append('modeofpayment', selectedPaymentMode);
+    formData.append('description', description||"");
+    formData.append('category', category || "");
+    formData.append('subcategory', subCategory || "");
+    formData.append('modeofpayment', paymentMode || "");
     formData.append('email', 'yogendra.pawar@spit.ac.in');
-    formData.append('amount', amount);
-    formData.append('date', date.toISOString());
+    formData.append('amount', amount || "");
+    formData.append('date', date || "");
 
     // Format the date to DateTime format (YYYY-MM-DDTHH:mm:ss)
-    const requestOptions = {
-      method: 'POST',
-      body: formData,
-    }; // Explicitly specify the type as RequestInit
+    // const requestOptions = {
+    //   method: 'POST',
+    //   body: formData,
+    // }; // Explicitly specify the type as RequestInit
 
-    try {
-      const response = await fetch(
-        'http://localhost:3000/api/addExpense',
-        requestOptions,
-      );
-      if (!response.ok) {
-        throw new Error('Failed to add expense');
-      }
-      const responseData = await response.json();
-      console.log(responseData);
-      setShowLoader(false);
-    } catch (error) {
-      console.error('Error:', error);
-    }
+    // try {
+    //   const response = await fetch(
+    //     'http://localhost:3000/api/addExpense',
+    //     requestOptions,
+    //   );
+    //   if (!response.ok) {
+    //     throw new Error('Failed to add expense');
+    //   }
+    //   const responseData = await response.json();
+    //   console.log(responseData);
+    // } catch (error) {
+    //   console.error('Error:', error);
+    // }
+    console.log(formData, description, category, subCategory, amount, paymentMode, date)
   }
 
-  function validateForm(): boolean {
-    return (
-      !!description &&
-      !!category &&
-      !!selectedSubcategory &&
-      !!selectedPaymentMode &&
-      !!amount
-    );
-  }
   console.log('reloaded');
 
   return (
@@ -113,7 +107,7 @@ const AddExpense: React.FC = () => {
               placeholder="Add description..."
               hiddenLabel
               onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                setDescription(event.target.value);
+                dispatch(setDescription(event.target.value))
               }}
               InputLabelProps={{
                 shrink: false,
@@ -220,10 +214,9 @@ const AddExpense: React.FC = () => {
                     return (
                       <div
                         key={index}
-                        className={`border rounded-sm px-2 py-1 cursor-pointer text-[12px] ${selectedSubcategory !== value ? ' border-blue   text-blue' : 'bg-blue text-white'}`}
+                        className={`border rounded-sm px-2 py-1 cursor-pointer text-[12px] ${subCategory !== value ? ' border-blue   text-blue' : 'bg-blue text-white'}`}
                         onClick={() => {
-                          setSelectedSubCategory(value);
-                          console.log(selectedSubcategory);
+                          dispatch(setSubCategory(value))
                         }}
                       >
                         {value}
@@ -243,10 +236,9 @@ const AddExpense: React.FC = () => {
                 return (
                   <div
                     key={index}
-                    className={`flex shrink-0 border rounded-sm px-2 py-1 cursor-pointer text-[12px] ${selectedPaymentMode !== value ? ' border-blue   text-blue' : 'bg-blue text-white'}`}
+                    className={`flex shrink-0 border rounded-sm px-2 py-1 cursor-pointer text-[12px] ${paymentMode !== value ? ' border-blue   text-blue' : 'bg-blue text-white'}`}
                     onClick={() => {
-                      setSelectedPaymentMode(value);
-                      console.log(selectedPaymentMode);
+                      dispatch(setPaymentMode(value))
                     }}
                   >
                     {value}
@@ -270,7 +262,7 @@ const AddExpense: React.FC = () => {
                   value={amount}
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
                     // const formattedValue = formatIndianRupees(event.target.value);
-                    setAmount(event.target.value);
+                    dispatch(setAmount(event.target.value))
                   }}
                   InputProps={{
                     disableUnderline: true,
@@ -319,7 +311,12 @@ const AddExpense: React.FC = () => {
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   onChange={(date: Date | null) => {
-                    setDate(date ?? new Date());
+                    if (date !== null) {
+                      dispatch(setDate(dayjs(date).unix().toString()));
+                    }else{
+                      const today = dayjs().startOf('day');
+                      dispatch(setDate(today.unix().toString()));
+                    }
                   }}
                   slotProps={{ textField: { size: 'small' } }}
                   format="DD-MM-YYYY"
@@ -358,17 +355,9 @@ const AddExpense: React.FC = () => {
               style={{ backgroundColor: '#55acee', textTransform: 'none' }}
               onClick={handleSubmitClick}
             >
-              {showLoader ? (
-                <RotatingLines
-                  strokeColor={'white'}
-                  width={'40'}
-                  strokeWidth={'2'}
-                  animationDuration={'0.75'}
-                  ariaLabel={'rotating-lines-loading'}
-                />
-              ) : (
+              
                 <>Add expense</>
-              )}
+    
             </Button>
           </div>
         </div>

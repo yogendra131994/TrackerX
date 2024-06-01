@@ -15,7 +15,7 @@ export default function Page() {
         {width && width >= 1024 && <FilterTab />}
       </div>
 
-      <div className="flex-1 flex overflow-auto lg:overflow-hidden ">
+      <div className="flex-1 flex overflow-auto lg:overflow-x-auto ">
         <Table />
       </div>
       <div>
